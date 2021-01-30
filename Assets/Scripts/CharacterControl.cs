@@ -6,6 +6,7 @@ public class CharacterControl : MonoBehaviour
 {
     public float moveSpeed = 5f;
 
+    public static List<CharacterControl> activeCharacters = new List<CharacterControl>();
     Pathfinder pathfinder;
     public List<Pathfinder.Node> path;
     private SpriteRenderer spriteRenderer;
@@ -13,6 +14,10 @@ public class CharacterControl : MonoBehaviour
     Vector3Int destinationCell;
     public delegate void UpdateAction();
     public UpdateAction updateAction;
+
+    void Awake() {
+        activeCharacters.Add(this);
+    }
 
     void Start() {
         pathfinder = GetComponent<Pathfinder>();
