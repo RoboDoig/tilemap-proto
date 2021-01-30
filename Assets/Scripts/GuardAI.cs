@@ -5,6 +5,7 @@ using UnityEngine;
 public class GuardAI : MonoBehaviour
 {
     public List<Vector3Int> patrolPositions;
+    public PolygonCollider2D sightCollider;
     public Vector3Int nextDestination;
     private CharacterControl characterControl;
     private int patrolPositionIndex;
@@ -22,6 +23,10 @@ public class GuardAI : MonoBehaviour
         nextDestination = patrolPositions[patrolPositionIndex];
     }
 
+    void Update() {
+        CheckVision();
+    }
+
     public void PlanNextMove() {
         patrolPositionIndex++;
         if (patrolPositionIndex > patrolPositions.Count-1) {
@@ -29,5 +34,14 @@ public class GuardAI : MonoBehaviour
         }
 
         nextDestination = patrolPositions[patrolPositionIndex];
+    }
+
+    public void CheckVision() {
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, 5f);
+        // Debug.Log(hitColliders.Length);
+    }
+
+    void OnTriggerEnter() {
+        Debug.Log("Trigger");
     }
 }

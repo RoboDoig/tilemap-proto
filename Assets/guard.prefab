@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7103752724088292197}
   - component: {fileID: 7103752724088292202}
   - component: {fileID: 7103752724088292196}
+  - component: {fileID: 1197554929}
   m_Layer: 0
   m_Name: guard
   m_TagString: Untagged
@@ -131,7 +132,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   maxMoveDistance: 15
-  isPlayer: 1
+  isPlayer: 0
+  turnPriority: 2
 --- !u!114 &7103752724088292196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,3 +146,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cacc08307cbe2049be383ec4d08f7db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1197554929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7103752724088292206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e229df16ad2bb5f44a2681168fbf8e1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patrolPositions:
+  - {x: 7, y: 5, z: 0}
+  - {x: 7, y: 10, z: 0}
+  sightRadius: 10
+  nextDestination: {x: 0, y: 0, z: 0}

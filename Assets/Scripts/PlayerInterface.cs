@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class PlayerInterface : MonoBehaviour
 {
     public float cameraMoveSpeed = 5f;
     public bool inControl = true;
+    public GameObject mouseIndicator;
 
     private GameManager gameManager;
     private GameTiles gameTiles;
@@ -30,9 +32,12 @@ public class PlayerInterface : MonoBehaviour
     public void InControlUpdate() {
         Vector3 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
+        Vector3Int hoverCell = gameTiles.tilemapFloor.WorldToCell(point);
+        Vector3 hoverCellPosition = gameTiles.tilemapFloor.CellToWorld(hoverCell);
+        hoverCellPosition.z = 0;
+        mouseIndicator.transform.position = hoverCellPosition;
+
         if (Input.GetMouseButtonDown(0)) {
-            // Get Location
-			Vector3 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
             // Get tile at that point
             Vector3Int selectedCell = gameTiles.tilemapFloor.WorldToCell(point);

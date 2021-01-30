@@ -29,13 +29,6 @@ public class PlayerFound : MonoBehaviour
         // Get Location
         Vector3Int selectedCell = characterControl.GetCurrentCell();
 
-        // // Get location
-		// Vector3 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-        // // Get tile at that point
-        // Vector3Int selectedCell = gameTiles.tilemapFloor.WorldToCell(point);
-        // selectedCell.z = 0;
-
         cellCollection = new List<Vector3Int>();
 
         // Get circular perimeter around the point
