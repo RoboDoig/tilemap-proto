@@ -4,10 +4,25 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager instance;
     public CharacterControl currentCharacter {get; private set;}
+    public GameObject turnIndicator;
+    public SpriteRenderer turnIndicatorRenderer;
+    public Vector3 turnIndicatorOffset;
     int characterIndex = 0;
     private GameTiles gameTiles;
     private PlayerInterface playerInterface;
+
+    void Awake() {
+        if (instance == null) 
+		{
+			instance = this;
+		}
+		else if (instance != this)
+		{
+			Destroy(gameObject);
+		}
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -15,17 +30,25 @@ public class GameManager : MonoBehaviour
         currentCharacter = CharacterControl.activeCharacters[characterIndex];
         playerInterface = GetComponent<PlayerInterface>();
         gameTiles = GameTiles.instance;
-
-        PlayerCheck();
+        turnIndicatorRenderer = turnIndicator.GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        turnIndicator.transform.position = currentCharacter.transform.position + turnIndicatorOffset;
+
+        Vector3Int currentCharacterCell = currentCharacter.GetCurrentCell();
+        if (!GameTiles.instance.worldTileData[currentCharacterCell.x, currentCharacterCell.y].playerVisible) {
+            turnIndicatorRenderer.enabled = false;
+        } else {
+            turnIndicatorRenderer.enabled = true;
+        }
     }
 
     public void AdvanceTurn() {
+        StartCoroutine(EndTurn());
+
         // Check if we won
         bool won = true;
         foreach (CharacterControl characterControl in CharacterControl.activeCharacters) {
@@ -40,15 +63,6 @@ public class GameManager : MonoBehaviour
         if (won) {
             Debug.Log("WON!");
         }
-
-        characterIndex++;
-        if (characterIndex > CharacterControl.activeCharacters.Count-1) {
-            characterIndex = 0;
-        }
-
-        currentCharacter = CharacterControl.activeCharacters[characterIndex];
-
-        PlayerCheck();
     }
 
     bool CheckWinState(CharacterControl character) {
@@ -63,14 +77,28 @@ public class GameManager : MonoBehaviour
     }
 
     void PlayerCheck() {
+
+        characterIndex++;
+        if (characterIndex > CharacterControl.activeCharacters.Count-1) {
+            characterIndex = 0;
+        }
+
+        currentCharacter = CharacterControl.activeCharacters[characterIndex];
+
         if (currentCharacter.isPlayer) {
             playerInterface.updateAction = playerInterface.InControlUpdate;
         } else {
             playerInterface.updateAction = playerInterface.OutControlUpdate;
-
-            // if this is not a player, send it to a random location
-            currentCharacter.SetRandomPath();
+            GuardAI guardAI = currentCharacter.GetComponent<GuardAI>();
+            currentCharacter.SetPath(guardAI.nextDestination);
+            guardAI.PlanNextMove();
             AdvanceTurn();
         }
+    }
+
+    IEnumerator EndTurn() {
+        playerInterface.updateAction = playerInterface.OutControlUpdate;
+        yield return new WaitForSeconds(2);
+        PlayerCheck();
     }
 }

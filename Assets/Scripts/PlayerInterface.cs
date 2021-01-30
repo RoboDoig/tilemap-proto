@@ -28,6 +28,8 @@ public class PlayerInterface : MonoBehaviour
     }
 
     public void InControlUpdate() {
+        Vector3 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
         if (Input.GetMouseButtonDown(0)) {
             // Get Location
 			Vector3 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
