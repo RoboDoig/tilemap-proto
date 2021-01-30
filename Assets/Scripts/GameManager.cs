@@ -7,12 +7,16 @@ public class GameManager : MonoBehaviour
     public CharacterControl currentCharacter {get; private set;}
     int characterIndex = 0;
     private GameTiles gameTiles;
+    private PlayerInterface playerInterface;
 
     // Start is called before the first frame update
     void Start()
     {
         currentCharacter = CharacterControl.activeCharacters[characterIndex];
+        playerInterface = GetComponent<PlayerInterface>();
         gameTiles = GameTiles.instance;
+
+        PlayerCheck();
     }
 
     // Update is called once per frame
@@ -43,6 +47,8 @@ public class GameManager : MonoBehaviour
         }
 
         currentCharacter = CharacterControl.activeCharacters[characterIndex];
+
+        PlayerCheck();
     }
 
     bool CheckWinState(CharacterControl character) {
@@ -54,5 +60,17 @@ public class GameManager : MonoBehaviour
         }
 
         return false;
+    }
+
+    void PlayerCheck() {
+        if (currentCharacter.isPlayer) {
+            playerInterface.updateAction = playerInterface.InControlUpdate;
+        } else {
+            playerInterface.updateAction = playerInterface.OutControlUpdate;
+
+            // if this is not a player, send it to a random location
+            currentCharacter.SetRandomPath();
+            AdvanceTurn();
+        }
     }
 }

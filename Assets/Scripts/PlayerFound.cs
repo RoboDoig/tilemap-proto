@@ -52,7 +52,7 @@ public class PlayerFound : MonoBehaviour
             bool shouldBlock = false;
 
             // for each point in the line, colour the associate cells until vision blocked
-            Color color = Color.red;
+            Color color = Color.white;
             bool playerVisible = true;
             foreach(Vector3Int lineCell in perimeterLine) {
                 DataTile tile = (DataTile)gameTiles.tilemapFloor.GetTile(lineCell);

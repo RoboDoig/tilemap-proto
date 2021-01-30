@@ -5,20 +5,29 @@ using UnityEngine;
 public class PlayerInterface : MonoBehaviour
 {
     public float cameraMoveSpeed = 5f;
+    public bool inControl = true;
 
     private GameManager gameManager;
     private GameTiles gameTiles;
+
+    public delegate void UpdateAction();
+    public UpdateAction updateAction;
 
     // Start is called before the first frame update
     void Start()
     {
         gameTiles = GameTiles.instance;
         gameManager = GetComponent<GameManager>();
+        updateAction = InControlUpdate;
     }
 
     // Update is called once per frame
     void Update()
     {
+        updateAction();
+    }
+
+    public void InControlUpdate() {
         if (Input.GetMouseButtonDown(0)) {
             // Get Location
 			Vector3 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -39,6 +48,11 @@ public class PlayerInterface : MonoBehaviour
             gameManager.AdvanceTurn();
         }
 
+        // Camera control
+        transform.position += new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0f).normalized * Time.deltaTime * cameraMoveSpeed;
+    }
+
+    public void OutControlUpdate() {
         // Camera control
         transform.position += new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0f).normalized * Time.deltaTime * cameraMoveSpeed;
     }

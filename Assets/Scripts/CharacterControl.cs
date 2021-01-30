@@ -1,12 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class CharacterControl : MonoBehaviour
 {
     public float moveSpeed = 5f;
     public float maxMoveDistance = 5f;
     public bool isPlayer;
+    public int turnPriority;
 
     public static List<CharacterControl> activeCharacters = new List<CharacterControl>();
     Pathfinder pathfinder;
@@ -19,6 +22,8 @@ public class CharacterControl : MonoBehaviour
 
     void Awake() {
         activeCharacters.Add(this);
+
+        activeCharacters = activeCharacters.OrderBy(x => x.turnPriority).ToList();
     }
 
     void Start() {
@@ -43,6 +48,13 @@ public class CharacterControl : MonoBehaviour
     {
         FindPath(destinationCell);
         updateAction = GoToDestination;
+    }
+
+    public void SetRandomPath() {
+        List<Vector3Int> perimeterCells = GameTiles.instance.GetBresenhamCircleCells(GetCurrentCell(), 10);
+        System.Random random = new System.Random();
+        int index = random.Next(perimeterCells.Count);
+        SetPath(perimeterCells[index]);
     }
 
     void GoToDestination()
