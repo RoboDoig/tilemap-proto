@@ -6,6 +6,7 @@ public class CharacterControl : MonoBehaviour
 {
     public float moveSpeed = 5f;
     public float maxMoveDistance = 5f;
+    public bool isPlayer;
 
     public static List<CharacterControl> activeCharacters = new List<CharacterControl>();
     Pathfinder pathfinder;

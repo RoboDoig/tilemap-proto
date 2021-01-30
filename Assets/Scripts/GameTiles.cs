@@ -10,6 +10,7 @@ public class GameTiles : MonoBehaviour
     public Tilemap tilemapFloor;
     public Tilemap tilemapObstacles;
     public WorldTileData[,] worldTileData;
+    public List<Vector3Int> goalTileLocations;
 
     private void Awake() 
 	{
@@ -39,11 +40,15 @@ public class GameTiles : MonoBehaviour
                 } else {
                     if (tileObstacle != null) {
                         worldTileData[x, y] = new WorldTileData(tileObstacle.traversable, tileObstacle.blocksVision, new Vector3Int(x, y, 0));
+                        
+                        if (tileObstacle.isWinLocation) {
+                            worldTileData[x, y].isWinLocation = true;
+                            goalTileLocations.Add(worldTileData[x, y].position);
+                        }
                     } else {
                         worldTileData[x, y] = new WorldTileData(tileFloor.traversable, tileFloor.blocksVision, new Vector3Int(x, y, 0));
                     }
                 }
-
             }
         }
 	}

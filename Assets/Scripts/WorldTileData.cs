@@ -8,11 +8,13 @@ public class WorldTileData
     public bool blocksVision;
     public Vector3Int position;
     public bool playerVisible;
+    public bool isWinLocation;
 
     public WorldTileData(bool _traversable, bool _blocksVision, Vector3Int _position) {
         traversable = _traversable;
         blocksVision = _blocksVision;
         position = _position;
         playerVisible = false;
+        isWinLocation = false;
     }
 }

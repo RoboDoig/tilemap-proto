@@ -67,12 +67,6 @@ public class Pathfinder : MonoBehaviour
         }
         path.Reverse();
 
-        Debug.Log("Found path!");
-        foreach(Node node in path)
-        {
-           Debug.Log(node.position);
-        }
-
         return path;
     }
 

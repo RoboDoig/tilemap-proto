@@ -8,4 +8,5 @@ public class DataTile : Tile
 {
     public bool traversable;
     public bool blocksVision;
+    public bool isWinLocation;
 }
