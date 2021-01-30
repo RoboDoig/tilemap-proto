@@ -48,7 +48,6 @@ public class GameManager : MonoBehaviour
     bool CheckWinState(CharacterControl character) {
         foreach(Vector3Int goalTileLocation in gameTiles.goalTileLocations) {
             float distance = (character.GetCurrentCell() - goalTileLocation).magnitude;
-            Debug.Log(distance);
             if (distance < 3) {
                 return true;
             }
