@@ -8,6 +8,7 @@ public class CharacterControl : MonoBehaviour
 
     Pathfinder pathfinder;
     public List<Pathfinder.Node> path;
+    private SpriteRenderer spriteRenderer;
     Vector3Int pathDestinationCell;
     Vector3Int destinationCell;
     public delegate void UpdateAction();
@@ -15,11 +16,20 @@ public class CharacterControl : MonoBehaviour
 
     void Start() {
         pathfinder = GetComponent<Pathfinder>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         updateAction = Idle;
     }
 
     void Update() {
         updateAction();
+
+        // Standard update checks
+        Vector3Int currentCell = GetCurrentCell();
+        if (!GameTiles.instance.worldTileData[currentCell.x, currentCell.y].playerVisible) {
+            spriteRenderer.enabled = false;
+        } else {
+            spriteRenderer.enabled = true;
+        }
     }
 
     public void SetPath(Vector3Int destinationCell)

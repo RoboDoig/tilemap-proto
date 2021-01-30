@@ -53,12 +53,14 @@ public class PlayerFound : MonoBehaviour
 
             // for each point in the line, colour the associate cells until vision blocked
             Color color = Color.red;
+            bool playerVisible = true;
             foreach(Vector3Int lineCell in perimeterLine) {
                 DataTile tile = (DataTile)gameTiles.tilemapFloor.GetTile(lineCell);
                 if (tile != null) {
                     cellCollection.Add(lineCell);
                     if (shouldBlock) {
                         color = Color.black;
+                        playerVisible = false;
                     }
 
                     if (gameTiles.worldTileData[lineCell.x, lineCell.y].blocksVision) {
@@ -69,6 +71,9 @@ public class PlayerFound : MonoBehaviour
                     gameTiles.tilemapFloor.SetColor(lineCell, color);
                     gameTiles.tilemapObstacles.SetTileFlags(lineCell, TileFlags.None);
                     gameTiles.tilemapObstacles.SetColor(lineCell, color);
+
+                    // We also need to tell the tile data its hidden from view
+                    gameTiles.worldTileData[lineCell.x, lineCell.y].playerVisible = playerVisible;
                 }
 
             }
