@@ -27,12 +27,19 @@ public class PlayerInterface : MonoBehaviour
             Vector3Int selectedCell = gameTiles.tilemapFloor.WorldToCell(point);
             selectedCell.z = 0;
 
+            // Check that move is allowed
+            float requestedMoveDistance = (gameManager.currentCharacter.GetCurrentCell() - selectedCell).magnitude;
+            if (requestedMoveDistance > gameManager.currentCharacter.maxMoveDistance) {
+                return;
+            }
+
             gameManager.currentCharacter.SetPath(selectedCell);
 
             // Advance to next characters turn
             gameManager.AdvanceTurn();
         }
 
+        // Camera control
         transform.position += new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0f).normalized * Time.deltaTime * cameraMoveSpeed;
     }
 }

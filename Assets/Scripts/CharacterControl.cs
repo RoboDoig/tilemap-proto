@@ -5,6 +5,7 @@ using UnityEngine;
 public class CharacterControl : MonoBehaviour
 {
     public float moveSpeed = 5f;
+    public float maxMoveDistance = 5f;
 
     public static List<CharacterControl> activeCharacters = new List<CharacterControl>();
     Pathfinder pathfinder;
