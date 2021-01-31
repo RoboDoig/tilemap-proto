@@ -14,6 +14,8 @@ public class DataTileBreakable : DataTile
             GameTiles.instance.tilemapObstacles.SetTile(cellLocation, null);
             GameTiles.instance.worldTileData[cellLocation.x, cellLocation.y].blocksVision = false;
             GameTiles.instance.worldTileData[cellLocation.x, cellLocation.y].traversable = true;
+            AudioManager.instance.AudioWallBreak();
+            ScreenShake.instance.DoShake(0.5f, 0.5f, 1f);
         }
     }
 }

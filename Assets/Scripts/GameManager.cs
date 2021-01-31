@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     int characterIndex = 0;
     private GameTiles gameTiles;
     private PlayerInterface playerInterface;
+    private bool winState = false;
+    private bool loseState = false;
 
     void Awake() {
         if (instance == null) 
@@ -107,6 +109,9 @@ public class GameManager : MonoBehaviour
     }
 
     public void LoseState() {
-        // Debug.Log("LOSE!");
+        if (!loseState) {
+            Debug.Log("LOSE!");
+            loseState = true;
+        }
     }
 }

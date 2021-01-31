@@ -66,6 +66,14 @@ public class CharacterControl : MonoBehaviour
 
         FindPath(destinationCell);
         updateAction = GoToDestination;
+
+        if (characterName == "found") {
+            AudioManager.instance.PlayFoundWalk();
+        } else if (characterName == "lost") {
+            AudioManager.instance.PlayLostWalk();
+        } else if (characterName == "guard") {
+            AudioManager.instance.PlayGuardWalk();
+        }
     }
 
     public void SetRandomPath() {
@@ -82,11 +90,15 @@ public class CharacterControl : MonoBehaviour
             if (MoveOnPath())
             {
                 updateAction = Idle;
+                AudioManager.instance.StopSound();
+                Debug.Log("stop");
             }
         }
         else
         {
             updateAction = Idle;
+            AudioManager.instance.StopSound();
+            Debug.Log("stop");
         }
     }
 
