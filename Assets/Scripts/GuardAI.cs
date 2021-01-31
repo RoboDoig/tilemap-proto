@@ -32,6 +32,8 @@ public class GuardAI : MonoBehaviour
 
     void Update() {
         CheckVision();
+
+        Debug.Log(characterControl.GetCurrentCell());
     }
 
     public void PlanNextMove() {

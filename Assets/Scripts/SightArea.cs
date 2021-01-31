@@ -50,7 +50,7 @@ public class SightArea : MonoBehaviour
             float dotProduct = Vector3.Dot(lookDirection, seenDirection);
 
             // If we are roughly in front of guard
-            if (dotProduct < 0) {
+            if (dotProduct < -0.8) {
                 // If none of the tiles were vision blocking then we have sight
                 if (!seenCharacters.Contains(seenCharacter)) {seenCharacters.Add(seenCharacter);}
             }

@@ -11,14 +11,19 @@ public class DataTile : Tile
     public bool isWinLocation;
 
     public virtual void Interact(Vector3Int cellLocation, CharacterControl interactingCharacter) {
-        // Check if we can knock out a guard here
+        // Check if we can knock out guard around this tile
         if (interactingCharacter.characterName == "lost") {
-            foreach (CharacterControl character in CharacterControl.activeCharacters) {
-                if (!character.isPlayer && character.GetCurrentCell()==cellLocation) {
-                    character.GetComponent<GuardAI>().Incapacitate();
+            for (int x = -1; x < 2; x++) {
+                for (int y = -1; y < 2; y++) {
+                    foreach (CharacterControl character in CharacterControl.activeCharacters) {
+                        Vector3Int testLocation = interactingCharacter.GetCurrentCell() + new Vector3Int(x, y, 0);
+                        if (!character.isPlayer && character.GetCurrentCell()==testLocation) {
+                            character.GetComponent<GuardAI>().Incapacitate();
 
-                    AudioManager.instance.AudioGuardKO();
-                    ScreenShake.instance.DoShake(0.5f, 0.5f, 1f);
+                            AudioManager.instance.AudioGuardKO();
+                            ScreenShake.instance.DoShake(0.5f, 0.5f, 1f);
+                        }
+                    }
                 }
             }
         }

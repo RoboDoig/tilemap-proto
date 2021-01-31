@@ -42,10 +42,6 @@ public class CharacterControl : MonoBehaviour
         lastPosition = transform.position;
     }
 
-    void Start() {
-
-    }
-
     void Update() {
         updateAction();
 
@@ -182,11 +178,16 @@ public class CharacterControl : MonoBehaviour
     }
 
     void Interact() {
-        DataTile tileFloor = (DataTile)GameTiles.instance.tilemapFloor.GetTile(interactionCell);
-        if (tileFloor != null) {tileFloor.Interact(interactionCell, this);}
+        Vector3 interactTilePosition = GameTiles.instance.tilemapFloor.CellToWorld(interactionCell);
+        float distance = (transform.position - interactTilePosition).magnitude;
 
-        DataTile tileObstacle = (DataTile)GameTiles.instance.tilemapObstacles.GetTile(interactionCell);
-        if (tileObstacle != null) {tileObstacle.Interact(interactionCell, this);}
+        if (distance < 1.5) {
+            DataTile tileFloor = (DataTile)GameTiles.instance.tilemapFloor.GetTile(interactionCell);
+            if (tileFloor != null) {tileFloor.Interact(interactionCell, this);}
+
+            DataTile tileObstacle = (DataTile)GameTiles.instance.tilemapObstacles.GetTile(interactionCell);
+            if (tileObstacle != null) {tileObstacle.Interact(interactionCell, this);}
+        }
     }
 
     public Vector3Int GetCurrentCell()

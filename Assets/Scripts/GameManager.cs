@@ -31,16 +31,14 @@ public class GameManager : MonoBehaviour
         winState = false;
         loseState = false;
         characterIndex = 0;
+    }
 
+    void Start() {
         currentCharacter = CharacterControl.activeCharacters[characterIndex];
+        Debug.Log(currentCharacter);
         playerInterface = GetComponent<PlayerInterface>();
         gameTiles = GameTiles.instance;
         turnIndicatorRenderer = turnIndicator.GetComponent<SpriteRenderer>();
-    }
-
-    void Start()
-    {
-
     }
 
     void Update()
@@ -87,7 +85,8 @@ public class GameManager : MonoBehaviour
     IEnumerator StartReloadScene() {
         CharacterControl.activeCharacters.Clear();
         Switch.switches.Clear();
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(4f);
+        GameObject.FindGameObjectWithTag("BackgroundMusic").GetComponent<AudioSource>().volume = 1;
         SceneManager.LoadScene(thisLevel, LoadSceneMode.Single);
     }
 

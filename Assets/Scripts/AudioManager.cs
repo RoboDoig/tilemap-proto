@@ -7,7 +7,6 @@ public class AudioManager : MonoBehaviour
     public static AudioManager instance;
     public AudioSource audioSourceOneShot;
     public AudioSource audioSourceDefault;
-    public AudioSource audioSourceMusic;
 
     public AudioClip breakWall;
     public AudioClip guardKO;
@@ -29,12 +28,6 @@ public class AudioManager : MonoBehaviour
 		{
 			Destroy(gameObject);
 		}
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        audioSourceMusic.Play();
     }
 
     public void PlayFoundWalk() {
@@ -79,6 +72,6 @@ public class AudioManager : MonoBehaviour
 
     public void AudioLose() {
         audioSourceOneShot.PlayOneShot(lose);
-        audioSourceMusic.Stop();
+        GameObject.FindGameObjectWithTag("BackgroundMusic").GetComponent<AudioSource>().volume = 0;
     }
 }
