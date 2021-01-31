@@ -9,6 +9,8 @@ public class GuardAI : MonoBehaviour
     public Vector3Int nextDestination;
     private CharacterControl characterControl;
     private int patrolPositionIndex;
+    public bool incapacitated = false;
+    private int incapacitateTurns = 3;
 
     void Start() {
         characterControl = GetComponent<CharacterControl>();
@@ -37,8 +39,22 @@ public class GuardAI : MonoBehaviour
     }
 
     public void CheckVision() {
-        if (sightArea.seenCharacters.Count > 0) {
+        if (sightArea.seenCharacters.Count > 0 && !incapacitated) {
             GameManager.instance.LoseState();
+        }
+    }
+
+    public void Incapacitate() {
+        incapacitated = true;
+        GetComponent<SpriteRenderer>().color = Color.red;
+    }
+
+    public void Recover() {
+        incapacitateTurns -= 1;
+        if (incapacitateTurns == 0) {
+            incapacitated = false;
+            GetComponent<SpriteRenderer>().color = Color.white;
+            incapacitateTurns = 2;
         }
     }
 }

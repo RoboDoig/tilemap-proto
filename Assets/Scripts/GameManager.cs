@@ -24,7 +24,6 @@ public class GameManager : MonoBehaviour
 		}
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         currentCharacter = CharacterControl.activeCharacters[characterIndex];
@@ -33,11 +32,12 @@ public class GameManager : MonoBehaviour
         turnIndicatorRenderer = turnIndicator.GetComponent<SpriteRenderer>();
     }
 
-    // Update is called once per frame
     void Update()
     {
+        // Have the player turn indicator follow the current character
         turnIndicator.transform.position = currentCharacter.transform.position + turnIndicatorOffset;
 
+        // Make sure current character is in vision, otherwise turn off indicator
         Vector3Int currentCharacterCell = currentCharacter.GetCurrentCell();
         if (!GameTiles.instance.worldTileData[currentCharacterCell.x, currentCharacterCell.y].playerVisible) {
             turnIndicatorRenderer.enabled = false;
@@ -90,8 +90,12 @@ public class GameManager : MonoBehaviour
         } else {
             playerInterface.updateAction = playerInterface.OutControlUpdate;
             GuardAI guardAI = currentCharacter.GetComponent<GuardAI>();
-            currentCharacter.SetPath(guardAI.nextDestination);
-            guardAI.PlanNextMove();
+            if (guardAI.incapacitated) {
+                guardAI.Recover();
+            } else {
+                currentCharacter.SetPath(guardAI.nextDestination);
+                guardAI.PlanNextMove();
+            }
             AdvanceTurn();
         }
     }
@@ -103,6 +107,6 @@ public class GameManager : MonoBehaviour
     }
 
     public void LoseState() {
-        Debug.Log("LOSE!");
+        // Debug.Log("LOSE!");
     }
 }

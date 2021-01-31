@@ -131,9 +131,11 @@ public class CharacterControl : MonoBehaviour
 
         // interact with the final destination cell tile if we are there
         if (destinationCell == path[path.Count-1].position) {
-            DataTile tile = (DataTile)GameTiles.instance.tilemapObstacles.GetTile(interactionCell);
-            Debug.Log(tile);
-            if (tile != null) {tile.Interact(interactionCell, this);}
+            DataTile tileFloor = (DataTile)GameTiles.instance.tilemapFloor.GetTile(interactionCell);
+            if (tileFloor != null) {tileFloor.Interact(interactionCell, this);}
+
+            DataTile tileObstacle = (DataTile)GameTiles.instance.tilemapObstacles.GetTile(interactionCell);
+            if (tileObstacle != null) {tileObstacle.Interact(interactionCell, this);}
         }
 
         if((worldDestination - transform.position).magnitude > 0.1f)
