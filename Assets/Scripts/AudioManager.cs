@@ -13,6 +13,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip guardKO;
     public AudioClip lose;
     public AudioClip win;
+    public AudioClip switchToggle;
 
     public AudioClip foundWalk;
     public AudioClip lostWalk;
@@ -65,6 +66,10 @@ public class AudioManager : MonoBehaviour
 
     public void AudioWin() {
         audioSourceOneShot.PlayOneShot(win);
+    }
+
+    public void AudioSwitch() {
+        audioSourceOneShot.PlayOneShot(switchToggle);
     }
 
     public void AudioLose() {

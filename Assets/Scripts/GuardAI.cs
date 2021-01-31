@@ -83,9 +83,10 @@ public class GuardAI : MonoBehaviour
 
     public void Alert(Vector3Int suspectCell) {
         // Display alert symbol
-        StartCoroutine(ShowAlert());
-        nextDestination = suspectCell;
-        // ShowDestination();
+        if (!incapacitated) {
+            StartCoroutine(ShowAlert());
+            nextDestination = suspectCell;
+        }
     }
 
     IEnumerator ShowAlert() {

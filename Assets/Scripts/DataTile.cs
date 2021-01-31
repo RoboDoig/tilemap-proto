@@ -22,6 +22,13 @@ public class DataTile : Tile
                 }
             }
         }
+
+        foreach(Switch activeSwitch in Switch.switches) {
+            if (activeSwitch.GetCurrentCell() == cellLocation) {
+                activeSwitch.Toggle();
+                AudioManager.instance.AudioSwitch();
+            }
+        }
     }
 
     public virtual void VisionInteract(Vector3Int cellLocation, bool inVision) {

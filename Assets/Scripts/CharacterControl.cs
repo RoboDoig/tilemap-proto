@@ -110,14 +110,14 @@ public class CharacterControl : MonoBehaviour
             {
                 updateAction = Idle;
                 AudioManager.instance.StopSound();
-                Debug.Log("stop");
+                Interact();
             }
         }
         else
         {
             updateAction = Idle;
             AudioManager.instance.StopSound();
-            Debug.Log("stop");
+            Interact();
         }
     }
 
@@ -160,15 +160,6 @@ public class CharacterControl : MonoBehaviour
     bool MoveToCell(Vector3Int destinationCell) {
         Vector3 worldDestination = GameTiles.instance.tilemapFloor.CellToWorld(destinationCell);
 
-        // interact with the final destination cell tile if we are there
-        if (destinationCell == path[path.Count-1].position) {
-            DataTile tileFloor = (DataTile)GameTiles.instance.tilemapFloor.GetTile(interactionCell);
-            if (tileFloor != null) {tileFloor.Interact(interactionCell, this);}
-
-            DataTile tileObstacle = (DataTile)GameTiles.instance.tilemapObstacles.GetTile(interactionCell);
-            if (tileObstacle != null) {tileObstacle.Interact(interactionCell, this);}
-        }
-
         if((worldDestination - transform.position).magnitude > 0.1f)
         {
             Vector3 moveVector = (worldDestination - transform.position).normalized;
@@ -177,8 +168,20 @@ public class CharacterControl : MonoBehaviour
             return false;
         } else
         {
+            // interact with the final destination cell tile if we are there
+            if (destinationCell == path[path.Count-1].position) {
+                // Interact();
+            }
             return true;
         }
+    }
+
+    void Interact() {
+        DataTile tileFloor = (DataTile)GameTiles.instance.tilemapFloor.GetTile(interactionCell);
+        if (tileFloor != null) {tileFloor.Interact(interactionCell, this);}
+
+        DataTile tileObstacle = (DataTile)GameTiles.instance.tilemapObstacles.GetTile(interactionCell);
+        if (tileObstacle != null) {tileObstacle.Interact(interactionCell, this);}
     }
 
     public Vector3Int GetCurrentCell()
