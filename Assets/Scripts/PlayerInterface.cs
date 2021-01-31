@@ -53,6 +53,11 @@ public class PlayerInterface : MonoBehaviour
                 return;
             }
 
+            if (gameManager.currentCharacter.characterName == "found" && !gameTiles.worldTileData[selectedCell.x, selectedCell.y].playerVisible) {
+                // gameManager.AdvanceTurn();
+                return;
+            }
+
             gameManager.currentCharacter.SetPath(selectedCell);
 
             // Advance to next characters turn

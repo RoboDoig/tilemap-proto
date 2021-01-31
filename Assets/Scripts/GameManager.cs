@@ -86,7 +86,10 @@ public class GameManager : MonoBehaviour
         CharacterControl.activeCharacters.Clear();
         Switch.switches.Clear();
         yield return new WaitForSeconds(4f);
-        GameObject.FindGameObjectWithTag("BackgroundMusic").GetComponent<AudioSource>().volume = 1;
+        GameObject background = GameObject.FindGameObjectWithTag("BackgroundMusic");
+        if (background != null) {
+            background.GetComponent<AudioSource>().volume = 1;
+        }
         SceneManager.LoadScene(thisLevel, LoadSceneMode.Single);
     }
 

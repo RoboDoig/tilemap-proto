@@ -72,6 +72,9 @@ public class AudioManager : MonoBehaviour
 
     public void AudioLose() {
         audioSourceOneShot.PlayOneShot(lose);
-        GameObject.FindGameObjectWithTag("BackgroundMusic").GetComponent<AudioSource>().volume = 0;
+        GameObject background = GameObject.FindGameObjectWithTag("BackgroundMusic");
+        if (background != null) {
+            background.GetComponent<AudioSource>().volume = 0;
+        }
     }
 }

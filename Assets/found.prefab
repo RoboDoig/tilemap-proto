@@ -115,7 +115,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: found
   moveSpeed: 5
-  maxMoveDistance: 15
+  maxMoveDistance: 20
   isPlayer: 1
   turnPriority: 0
 --- !u!114 &3613100818157716704
