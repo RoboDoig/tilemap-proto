@@ -101,4 +101,8 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(2);
         PlayerCheck();
     }
+
+    public void LoseState() {
+        Debug.Log("LOSE!");
+    }
 }

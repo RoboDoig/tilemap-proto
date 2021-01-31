@@ -9,4 +9,7 @@ public class DataTile : Tile
     public bool traversable;
     public bool blocksVision;
     public bool isWinLocation;
+
+    public virtual void Interact(Vector3Int cellLocation, CharacterControl interactingCharacter) {
+    }
 }

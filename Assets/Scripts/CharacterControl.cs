@@ -6,6 +6,7 @@ using System.Linq;
 
 public class CharacterControl : MonoBehaviour
 {
+    public string characterName;
     public float moveSpeed = 5f;
     public float maxMoveDistance = 5f;
     public bool isPlayer;
@@ -17,6 +18,7 @@ public class CharacterControl : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     Vector3Int pathDestinationCell;
     Vector3Int destinationCell;
+    Vector3Int interactionCell;
     public delegate void UpdateAction();
     public UpdateAction updateAction;
 
@@ -46,6 +48,22 @@ public class CharacterControl : MonoBehaviour
 
     public void SetPath(Vector3Int destinationCell)
     {
+        interactionCell = destinationCell;
+
+        // if the destination cell is non-traversable, find a surrounding cell that is
+        if (!GameTiles.instance.worldTileData[destinationCell.x, destinationCell.y].traversable) {
+            List<WorldTileData> traversablePerimeterTiles = new List<WorldTileData>();
+            for (int x = -1; x < 2; x++) {
+                for (int y = -1; y < 2; y++) {
+                    if (GameTiles.instance.worldTileData[destinationCell.x+x, destinationCell.y+y].traversable) {
+                        traversablePerimeterTiles.Add(GameTiles.instance.worldTileData[destinationCell.x+x, destinationCell.y+y]);
+                    }
+                }
+            }
+            traversablePerimeterTiles = traversablePerimeterTiles.OrderBy(x => Vector3Int.Distance(GetCurrentCell(), x.position)).ToList();
+            if (traversablePerimeterTiles.Count > 0) {destinationCell = traversablePerimeterTiles[0].position;}
+        }
+
         FindPath(destinationCell);
         updateAction = GoToDestination;
     }
@@ -110,6 +128,13 @@ public class CharacterControl : MonoBehaviour
 
     bool MoveToCell(Vector3Int destinationCell) {
         Vector3 worldDestination = GameTiles.instance.tilemapFloor.CellToWorld(destinationCell);
+
+        // interact with the final destination cell tile if we are there
+        if (destinationCell == path[path.Count-1].position) {
+            DataTile tile = (DataTile)GameTiles.instance.tilemapObstacles.GetTile(interactionCell);
+            Debug.Log(tile);
+            if (tile != null) {tile.Interact(interactionCell, this);}
+        }
 
         if((worldDestination - transform.position).magnitude > 0.1f)
         {

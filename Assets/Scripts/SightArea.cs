@@ -25,7 +25,6 @@ public class SightArea : MonoBehaviour
 
     void OnCollisionStay2D(Collision2D col) {
         // Check if player character is in sight area bounding polygon
-        Debug.Log(col.gameObject);
         CharacterControl seenCharacter = col.transform.GetComponent<CharacterControl>();
         bool playerCharacterIn = false;
         if (seenCharacter != null && seenCharacter.isPlayer) {

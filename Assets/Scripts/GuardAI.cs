@@ -5,7 +5,7 @@ using UnityEngine;
 public class GuardAI : MonoBehaviour
 {
     public List<Vector3Int> patrolPositions;
-    public PolygonCollider2D sightCollider;
+    public SightArea sightArea;
     public Vector3Int nextDestination;
     private CharacterControl characterControl;
     private int patrolPositionIndex;
@@ -37,11 +37,8 @@ public class GuardAI : MonoBehaviour
     }
 
     public void CheckVision() {
-        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, 5f);
-        // Debug.Log(hitColliders.Length);
-    }
-
-    void OnTriggerEnter() {
-        Debug.Log("Trigger");
+        if (sightArea.seenCharacters.Count > 0) {
+            GameManager.instance.LoseState();
+        }
     }
 }
