@@ -487,8 +487,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   patrolPositions:
-  - {x: 3, y: 4, z: 0}
-  - {x: -1, y: -1, z: 0}
+  - {x: 0, y: -8, z: 0}
   sightArea: {fileID: 316073139}
   hearingArea: {fileID: 18679736}
   alarmAnimation: {fileID: 8288628598438177838}
