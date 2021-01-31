@@ -18,6 +18,10 @@ public class PlayerFound : MonoBehaviour
     }
 
 	private void Update () {
+        if (GameManager.instance.loseState) {
+            return;
+        }
+
         // reset last cells
         if (cellCollection.Count > 0) {
             foreach (Vector3Int cell in cellCollection) {

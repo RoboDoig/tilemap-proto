@@ -53,6 +53,20 @@ public class GameTiles : MonoBehaviour
         }
 	}
 
+    public void PaintAllTiles(Color color) {
+        BoundsInt bounds = tilemapFloor.cellBounds;
+
+        for (int x = 0; x < bounds.size.x; x++) {
+            for (int y = 0; y < bounds.size.y; y++) {
+                GameTiles.instance.tilemapFloor.SetTileFlags(new Vector3Int(x, y, 0), TileFlags.None);
+                GameTiles.instance.tilemapFloor.SetColor(new Vector3Int(x, y, 0), color);
+
+                GameTiles.instance.tilemapObstacles.SetTileFlags(new Vector3Int(x, y, 0), TileFlags.None);
+                GameTiles.instance.tilemapObstacles.SetColor(new Vector3Int(x, y, 0), color);
+            }
+        }
+    }
+
     // Function for circle-generation 
     // using Bresenham's algorithm 
     public List<Vector3Int> GetBresenhamCircleCells(Vector3Int origin, int radius) {

@@ -19,6 +19,9 @@ public class CharacterControl : MonoBehaviour
     Vector3Int pathDestinationCell;
     Vector3Int destinationCell;
     Vector3Int interactionCell;
+    Vector3 lastPosition;
+    public Vector3 lookDirection {get; private set;}
+    public float currentMoveSpeed {get; private set;}
     public delegate void UpdateAction();
     public UpdateAction updateAction;
 
@@ -26,12 +29,16 @@ public class CharacterControl : MonoBehaviour
         activeCharacters.Add(this);
 
         activeCharacters = activeCharacters.OrderBy(x => x.turnPriority).ToList();
+
+        lookDirection = new Vector3(1, -1, 0).normalized;
     }
 
     void Start() {
         pathfinder = GetComponent<Pathfinder>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         updateAction = Idle;
+        
+        lastPosition = transform.position;
     }
 
     void Update() {
@@ -44,6 +51,18 @@ public class CharacterControl : MonoBehaviour
         } else {
             spriteRenderer.enabled = true;
         }
+
+        if (GameManager.instance.loseState) {
+            spriteRenderer.enabled = true;
+        }
+
+        // Check direction + move speed (TODO redundant with animation controller, send this info there instead)
+        currentMoveSpeed = (transform.position - lastPosition).magnitude;
+        Vector3 direction = (transform.position - lastPosition).normalized;
+        if (direction.magnitude > 0.1f) {
+            lookDirection = direction;
+        }
+        lastPosition = transform.position;
     }
 
     public void SetPath(Vector3Int destinationCell)
@@ -165,5 +184,10 @@ public class CharacterControl : MonoBehaviour
     public Vector3Int GetCurrentCell()
     {
         return GameTiles.instance.tilemapFloor.WorldToCell(transform.position);
+    }
+
+    void OnDrawGizmosSelected() {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(transform.position, transform.position + lookDirection);
     }
 }

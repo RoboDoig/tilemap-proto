@@ -45,8 +45,15 @@ public class SightArea : MonoBehaviour
                 }
             }
 
-            // If none of the tiles were vision blocking then we have sight
-            if (!seenCharacters.Contains(seenCharacter)) {seenCharacters.Add(seenCharacter);}
+            Vector3 lookDirection = characterControl.lookDirection;
+            Vector3 seenDirection = characterControl.transform.position - seenCharacter.transform.position;
+            float dotProduct = Vector3.Dot(lookDirection, seenDirection);
+
+            // If we are roughly in front of guard
+            if (dotProduct < 0) {
+                // If none of the tiles were vision blocking then we have sight
+                if (!seenCharacters.Contains(seenCharacter)) {seenCharacters.Add(seenCharacter);}
+            }
         }
     }
 

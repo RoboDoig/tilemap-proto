@@ -37,6 +37,10 @@ public class PlayerInterface : MonoBehaviour
         hoverCellPosition.z = 0;
         mouseIndicator.transform.position = hoverCellPosition;
 
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            gameManager.AdvanceTurn();
+        }
+
         if (Input.GetMouseButtonDown(0)) {
 
             // Get tile at that point

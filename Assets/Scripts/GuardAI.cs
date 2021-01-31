@@ -6,6 +6,10 @@ public class GuardAI : MonoBehaviour
 {
     public List<Vector3Int> patrolPositions;
     public SightArea sightArea;
+    public HearingArea hearingArea;
+    public SpriteRenderer alarmAnimation;
+    public GameObject pathIndicatorPrefab;
+    public List<GameObject> currentPathIndicators = new List<GameObject>();
     public Vector3Int nextDestination;
     private CharacterControl characterControl;
     private int patrolPositionIndex;
@@ -23,6 +27,7 @@ public class GuardAI : MonoBehaviour
         patrolPositionIndex = 0;
 
         nextDestination = patrolPositions[patrolPositionIndex];
+        StartCoroutine(ShowDestination());
     }
 
     void Update() {
@@ -36,6 +41,24 @@ public class GuardAI : MonoBehaviour
         }
 
         nextDestination = patrolPositions[patrolPositionIndex];
+    }
+
+    IEnumerator ShowDestination() {
+        foreach(GameObject obj in currentPathIndicators) {
+            Destroy(obj);
+        }
+
+        Pathfinder pathfinder = GetComponent<Pathfinder>();
+        List<Pathfinder.Node> path = pathfinder.FindPath(characterControl.GetCurrentCell(), nextDestination);
+        foreach(Pathfinder.Node node in path) {
+            if (GameTiles.instance.worldTileData[node.position.x, node.position.y].playerVisible) {
+                Vector3 placePosition = GameTiles.instance.tilemapFloor.CellToWorld(node.position);
+                GameObject obj = Instantiate(pathIndicatorPrefab, placePosition, Quaternion.identity);
+                currentPathIndicators.Add(obj);
+            }
+        }
+        yield return new WaitForSeconds(0.5f);
+        StartCoroutine(ShowDestination());
     }
 
     public void CheckVision() {
@@ -59,6 +82,15 @@ public class GuardAI : MonoBehaviour
     }
 
     public void Alert(Vector3Int suspectCell) {
-        // Display some alert symbol
+        // Display alert symbol
+        StartCoroutine(ShowAlert());
+        nextDestination = suspectCell;
+        // ShowDestination();
+    }
+
+    IEnumerator ShowAlert() {
+        alarmAnimation.enabled = true;
+        yield return new WaitForSeconds(2f);
+        alarmAnimation.enabled = false;
     }
 }

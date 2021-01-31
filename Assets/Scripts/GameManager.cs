@@ -7,13 +7,13 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public CharacterControl currentCharacter {get; private set;}
     public GameObject turnIndicator;
-    public SpriteRenderer turnIndicatorRenderer;
+    private SpriteRenderer turnIndicatorRenderer;
     public Vector3 turnIndicatorOffset;
     int characterIndex = 0;
     private GameTiles gameTiles;
     private PlayerInterface playerInterface;
-    private bool winState = false;
-    private bool loseState = false;
+    public bool winState {get; private set;}
+    public bool loseState {get; private set;}
 
     void Awake() {
         if (instance == null) 
@@ -24,6 +24,9 @@ public class GameManager : MonoBehaviour
 		{
 			Destroy(gameObject);
 		}
+
+        winState = false;
+        loseState = false;
     }
 
     void Start()
@@ -71,6 +74,7 @@ public class GameManager : MonoBehaviour
         foreach(Vector3Int goalTileLocation in gameTiles.goalTileLocations) {
             float distance = (character.GetCurrentCell() - goalTileLocation).magnitude;
             if (distance < 3) {
+                AudioManager.instance.AudioWin();
                 return true;
             }
         }
@@ -110,7 +114,9 @@ public class GameManager : MonoBehaviour
 
     public void LoseState() {
         if (!loseState) {
-            Debug.Log("LOSE!");
+            AudioManager.instance.AudioLose();
+            ScreenShake.instance.DoShake(2f, 0.5f, 1f);
+            GameTiles.instance.PaintAllTiles(Color.red);
             loseState = true;
         }
     }

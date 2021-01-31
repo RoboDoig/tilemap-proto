@@ -7,8 +7,12 @@ public class AudioManager : MonoBehaviour
     public static AudioManager instance;
     public AudioSource audioSourceOneShot;
     public AudioSource audioSourceDefault;
+    public AudioSource audioSourceMusic;
 
     public AudioClip breakWall;
+    public AudioClip guardKO;
+    public AudioClip lose;
+    public AudioClip win;
 
     public AudioClip foundWalk;
     public AudioClip lostWalk;
@@ -28,6 +32,7 @@ public class AudioManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        audioSourceMusic.Play();
     }
 
     public void PlayFoundWalk() {
@@ -51,5 +56,19 @@ public class AudioManager : MonoBehaviour
 
     public void AudioWallBreak() {
         audioSourceOneShot.PlayOneShot(breakWall);
+    }
+
+    public void AudioGuardKO() {
+        audioSourceOneShot.PlayOneShot(guardKO);
+    }
+
+
+    public void AudioWin() {
+        audioSourceOneShot.PlayOneShot(win);
+    }
+
+    public void AudioLose() {
+        audioSourceOneShot.PlayOneShot(lose);
+        audioSourceMusic.Stop();
     }
 }

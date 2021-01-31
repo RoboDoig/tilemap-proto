@@ -16,6 +16,9 @@ public class DataTile : Tile
             foreach (CharacterControl character in CharacterControl.activeCharacters) {
                 if (!character.isPlayer && character.GetCurrentCell()==cellLocation) {
                     character.GetComponent<GuardAI>().Incapacitate();
+
+                    AudioManager.instance.AudioGuardKO();
+                    ScreenShake.instance.DoShake(0.5f, 0.5f, 1f);
                 }
             }
         }

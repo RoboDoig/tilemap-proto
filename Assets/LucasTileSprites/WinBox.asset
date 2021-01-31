@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11dbfb0ec8a4b9e46aa323a7f4b7998a, type: 3}
   m_Name: WinBox
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 21300536, guid: 2ff73f8ec41810449a91b230f0a9216c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ea21810a18aabed40a3690e2603f949d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
