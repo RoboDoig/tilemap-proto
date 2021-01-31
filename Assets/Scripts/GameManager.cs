@@ -53,33 +53,18 @@ public class GameManager : MonoBehaviour
 
     public void AdvanceTurn() {
         StartCoroutine(EndTurn());
+    }
 
-        // Check if we won
-        bool won = true;
+    public void CheckWinState() {
         foreach (CharacterControl characterControl in CharacterControl.activeCharacters) {
             if (characterControl.isPlayer) {
-                if (!CheckWinState(characterControl)) {
-                    won = false;
-                    break;
+                if (!characterControl.reachedGoal) {
+                    return;
                 }
             }
         }
 
-        if (won) {
-            Debug.Log("WON!");
-        }
-    }
-
-    bool CheckWinState(CharacterControl character) {
-        foreach(Vector3Int goalTileLocation in gameTiles.goalTileLocations) {
-            float distance = (character.GetCurrentCell() - goalTileLocation).magnitude;
-            if (distance < 3) {
-                AudioManager.instance.AudioWin();
-                return true;
-            }
-        }
-
-        return false;
+        Debug.Log("WIN");
     }
 
     void PlayerCheck() {

@@ -12,7 +12,8 @@ public class AudioManager : MonoBehaviour
     public AudioClip breakWall;
     public AudioClip guardKO;
     public AudioClip lose;
-    public AudioClip win;
+    public AudioClip lostWin;
+    public AudioClip foundWin;
     public AudioClip switchToggle;
 
     public AudioClip foundWalk;
@@ -64,8 +65,12 @@ public class AudioManager : MonoBehaviour
     }
 
 
-    public void AudioWin() {
-        audioSourceOneShot.PlayOneShot(win);
+    public void AudioLostWin() {
+        audioSourceOneShot.PlayOneShot(lostWin);
+    }
+
+    public void AudioFoundWin() {
+        audioSourceOneShot.PlayOneShot(foundWin);
     }
 
     public void AudioSwitch() {

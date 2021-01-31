@@ -24,6 +24,7 @@ public class CharacterControl : MonoBehaviour
     public float currentMoveSpeed {get; private set;}
     public delegate void UpdateAction();
     public UpdateAction updateAction;
+    public bool reachedGoal {get; private set;}
 
     void Awake() {
         activeCharacters.Add(this);
@@ -31,6 +32,8 @@ public class CharacterControl : MonoBehaviour
         activeCharacters = activeCharacters.OrderBy(x => x.turnPriority).ToList();
 
         lookDirection = new Vector3(1, -1, 0).normalized;
+
+        reachedGoal = false;
     }
 
     void Start() {
@@ -192,5 +195,10 @@ public class CharacterControl : MonoBehaviour
     void OnDrawGizmosSelected() {
         Gizmos.color = Color.blue;
         Gizmos.DrawLine(transform.position, transform.position + lookDirection);
+    }
+
+    public void ReachedGoal() {
+        reachedGoal = true;
+        GameManager.instance.CheckWinState();
     }
 }

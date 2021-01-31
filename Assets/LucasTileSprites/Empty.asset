@@ -34,6 +34,6 @@ MonoBehaviour:
   m_InstancedGameObject: {fileID: 0}
   m_Flags: 1
   m_ColliderType: 1
-  traversable: 0
+  traversable: 1
   blocksVision: 0
   isWinLocation: 0
