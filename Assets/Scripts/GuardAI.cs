@@ -64,6 +64,7 @@ public class GuardAI : MonoBehaviour
     public void CheckVision() {
         if (sightArea.seenCharacters.Count > 0 && !incapacitated) {
             GameManager.instance.LoseState();
+            StartCoroutine(ShowAlert());
         }
     }
 

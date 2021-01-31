@@ -84,6 +84,13 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(nextLevel, LoadSceneMode.Single);
     }
 
+    IEnumerator StartReloadScene() {
+        CharacterControl.activeCharacters.Clear();
+        Switch.switches.Clear();
+        yield return new WaitForSeconds(3f);
+        SceneManager.LoadScene(thisLevel, LoadSceneMode.Single);
+    }
+
     void PlayerCheck() {
 
         characterIndex++;
@@ -120,6 +127,7 @@ public class GameManager : MonoBehaviour
             ScreenShake.instance.DoShake(2f, 0.5f, 1f);
             GameTiles.instance.PaintAllTiles(Color.red);
             loseState = true;
+            StartCoroutine(StartReloadScene());
         }
     }
 }
