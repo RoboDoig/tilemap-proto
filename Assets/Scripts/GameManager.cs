@@ -1,15 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    public string thisLevel;
+    public string nextLevel;
     public CharacterControl currentCharacter {get; private set;}
     public GameObject turnIndicator;
     private SpriteRenderer turnIndicatorRenderer;
     public Vector3 turnIndicatorOffset;
-    int characterIndex = 0;
+    int characterIndex;
     private GameTiles gameTiles;
     private PlayerInterface playerInterface;
     public bool winState {get; private set;}
@@ -27,18 +30,22 @@ public class GameManager : MonoBehaviour
 
         winState = false;
         loseState = false;
-    }
+        characterIndex = 0;
 
-    void Start()
-    {
         currentCharacter = CharacterControl.activeCharacters[characterIndex];
         playerInterface = GetComponent<PlayerInterface>();
         gameTiles = GameTiles.instance;
         turnIndicatorRenderer = turnIndicator.GetComponent<SpriteRenderer>();
     }
 
+    void Start()
+    {
+
+    }
+
     void Update()
     {
+        if (winState) {return;}
         // Have the player turn indicator follow the current character
         turnIndicator.transform.position = currentCharacter.transform.position + turnIndicatorOffset;
 
@@ -65,6 +72,16 @@ public class GameManager : MonoBehaviour
         }
 
         Debug.Log("WIN");
+        winState = true;
+
+        StartCoroutine(StartLoadNextScene());
+    }
+
+    IEnumerator StartLoadNextScene() {
+        CharacterControl.activeCharacters.Clear();
+        Switch.switches.Clear();
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadScene(nextLevel, LoadSceneMode.Single);
     }
 
     void PlayerCheck() {

@@ -34,14 +34,16 @@ public class CharacterControl : MonoBehaviour
         lookDirection = new Vector3(1, -1, 0).normalized;
 
         reachedGoal = false;
-    }
 
-    void Start() {
         pathfinder = GetComponent<Pathfinder>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         updateAction = Idle;
         
         lastPosition = transform.position;
+    }
+
+    void Start() {
+
     }
 
     void Update() {
