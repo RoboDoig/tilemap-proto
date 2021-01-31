@@ -10,6 +10,6 @@ public class TitleScreen : MonoBehaviour
     }
 
     public void StartGame() {
-        SceneManager.LoadScene("Level1", LoadSceneMode.Single);
+        SceneManager.LoadScene("Level0", LoadSceneMode.Single);
     }
 }
