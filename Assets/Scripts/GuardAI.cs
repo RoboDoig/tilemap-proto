@@ -46,15 +46,19 @@ public class GuardAI : MonoBehaviour
 
     public void Incapacitate() {
         incapacitated = true;
-        GetComponent<SpriteRenderer>().color = Color.red;
+        GetComponent<Animator>().SetTrigger("incapacitate"); // TODO - Yes I know this sucks
     }
 
     public void Recover() {
         incapacitateTurns -= 1;
         if (incapacitateTurns == 0) {
             incapacitated = false;
-            GetComponent<SpriteRenderer>().color = Color.white;
             incapacitateTurns = 2;
+            GetComponent<Animator>().SetTrigger("recover"); // TODO - Yes I know this sucks
         }
+    }
+
+    public void Alert(Vector3Int suspectCell) {
+        // Display some alert symbol
     }
 }

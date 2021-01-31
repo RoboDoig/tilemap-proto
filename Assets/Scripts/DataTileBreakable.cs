@@ -13,6 +13,7 @@ public class DataTileBreakable : DataTile
         if (interactingCharacter.characterName == "found") {
             GameTiles.instance.tilemapObstacles.SetTile(cellLocation, null);
             GameTiles.instance.worldTileData[cellLocation.x, cellLocation.y].blocksVision = false;
+            GameTiles.instance.worldTileData[cellLocation.x, cellLocation.y].traversable = true;
         }
     }
 }

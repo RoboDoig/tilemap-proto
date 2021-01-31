@@ -49,6 +49,7 @@ public class PlayerFound : MonoBehaviour
             bool playerVisible = true;
             foreach(Vector3Int lineCell in perimeterLine) {
                 DataTile tile = (DataTile)gameTiles.tilemapFloor.GetTile(lineCell);
+                DataTile tileObstacle = (DataTile)gameTiles.tilemapObstacles.GetTile(lineCell);
                 if (tile != null) {
                     cellCollection.Add(lineCell);
                     if (shouldBlock) {
@@ -65,10 +66,12 @@ public class PlayerFound : MonoBehaviour
                     gameTiles.tilemapObstacles.SetTileFlags(lineCell, TileFlags.None);
                     gameTiles.tilemapObstacles.SetColor(lineCell, color);
 
-                    // We also need to tell the tile data its hidden from view
+                    // We also need to tell the tile data its hidden from view and implement any vision interactions
                     gameTiles.worldTileData[lineCell.x, lineCell.y].playerVisible = playerVisible;
+                    if (tileObstacle != null) {
+                        tileObstacle.VisionInteract(lineCell, playerVisible);
+                    }
                 }
-
             }
         }
 	}

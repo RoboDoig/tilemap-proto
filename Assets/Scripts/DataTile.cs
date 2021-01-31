@@ -21,4 +21,8 @@ public class DataTile : Tile
             }
         }
     }
+
+    public virtual void VisionInteract(Vector3Int cellLocation, bool inVision) {
+
+    }
 }
