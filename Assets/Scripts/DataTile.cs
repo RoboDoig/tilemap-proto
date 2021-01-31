@@ -36,7 +36,7 @@ public class DataTile : Tile
         }
     }
 
-    public virtual void VisionInteract(Vector3Int cellLocation, bool inVision) {
+    public virtual void VisionInteract(Vector3Int cellLocation, bool inVision, CharacterControl currentCharacter) {
 
     }
 }

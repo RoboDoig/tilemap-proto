@@ -28,7 +28,7 @@ public class InteractionTest : MonoBehaviour
             Debug.Log(selectedCell);
             lastSelection = selectedCell;
 
-            characterControl.SetPath(selectedCell);
+            characterControl.SetPath(selectedCell, 100, true);
         }
     }
 	

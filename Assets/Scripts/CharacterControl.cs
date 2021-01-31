@@ -66,25 +66,30 @@ public class CharacterControl : MonoBehaviour
         lastPosition = transform.position;
     }
 
-    public void SetPath(Vector3Int destinationCell)
+    public void SetPath(Vector3Int destinationCell, int limit, bool allowPerimeter)
     {
         interactionCell = destinationCell;
 
-        // if the destination cell is non-traversable, find a surrounding cell that is
-        if (!GameTiles.instance.worldTileData[destinationCell.x, destinationCell.y].traversable) {
-            List<WorldTileData> traversablePerimeterTiles = new List<WorldTileData>();
-            for (int x = -1; x < 2; x++) {
-                for (int y = -1; y < 2; y++) {
-                    if (GameTiles.instance.worldTileData[destinationCell.x+x, destinationCell.y+y].traversable) {
-                        traversablePerimeterTiles.Add(GameTiles.instance.worldTileData[destinationCell.x+x, destinationCell.y+y]);
+        if (allowPerimeter) {
+            // if the destination cell is non-traversable, find a surrounding cell that is
+            if (!GameTiles.instance.worldTileData[destinationCell.x, destinationCell.y].traversable) {
+                List<WorldTileData> traversablePerimeterTiles = new List<WorldTileData>();
+                for (int x = -1; x < 2; x++) {
+                    for (int y = -1; y < 2; y++) {
+                        if (GameTiles.instance.worldTileData[destinationCell.x+x, destinationCell.y+y].traversable) {
+                            traversablePerimeterTiles.Add(GameTiles.instance.worldTileData[destinationCell.x+x, destinationCell.y+y]);
+                        }
                     }
                 }
+                traversablePerimeterTiles = traversablePerimeterTiles.OrderBy(x => Vector3Int.Distance(GetCurrentCell(), x.position)).ToList();
+                if (traversablePerimeterTiles.Count > 0) {destinationCell = traversablePerimeterTiles[0].position;}
             }
-            traversablePerimeterTiles = traversablePerimeterTiles.OrderBy(x => Vector3Int.Distance(GetCurrentCell(), x.position)).ToList();
-            if (traversablePerimeterTiles.Count > 0) {destinationCell = traversablePerimeterTiles[0].position;}
         }
 
         FindPath(destinationCell);
+        if (path!= null && path.Count > limit) {
+            path = path.GetRange(0, limit);
+        }
         updateAction = GoToDestination;
 
         if (characterName == "found") {
@@ -94,13 +99,6 @@ public class CharacterControl : MonoBehaviour
         } else if (characterName == "guard") {
             AudioManager.instance.PlayGuardWalk();
         }
-    }
-
-    public void SetRandomPath() {
-        List<Vector3Int> perimeterCells = GameTiles.instance.GetBresenhamCircleCells(GetCurrentCell(), 10);
-        System.Random random = new System.Random();
-        int index = random.Next(perimeterCells.Count);
-        SetPath(perimeterCells[index]);
     }
 
     void GoToDestination()

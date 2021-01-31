@@ -98,7 +98,6 @@ public class GameManager : MonoBehaviour
     }
 
     void PlayerCheck() {
-
         characterIndex++;
         if (characterIndex > CharacterControl.activeCharacters.Count-1) {
             characterIndex = 0;
@@ -114,7 +113,7 @@ public class GameManager : MonoBehaviour
             if (guardAI.incapacitated) {
                 guardAI.Recover();
             } else {
-                currentCharacter.SetPath(guardAI.nextDestination);
+                currentCharacter.SetPath(guardAI.nextDestination, 15, false);
                 guardAI.PlanNextMove();
             }
             AdvanceTurn();

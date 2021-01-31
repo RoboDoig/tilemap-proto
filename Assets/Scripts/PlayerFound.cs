@@ -73,12 +73,7 @@ public class PlayerFound : MonoBehaviour
                     // We also need to tell the tile data its hidden from view and implement any vision interactions
                     gameTiles.worldTileData[lineCell.x, lineCell.y].playerVisible = playerVisible;
                     if (tileObstacle != null) {
-                        if (GameManager.instance.currentCharacter.characterName == "found" || GameManager.instance.currentCharacter.characterName == "guard") {
-                            tileObstacle.VisionInteract(lineCell, true);
-                        } else {
-                            tileObstacle.VisionInteract(lineCell, playerVisible);
-                        }
-                        
+                        tileObstacle.VisionInteract(lineCell, playerVisible, GameManager.instance.currentCharacter);
                     }
                 }
             }

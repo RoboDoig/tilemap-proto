@@ -50,6 +50,7 @@ public class GuardAI : MonoBehaviour
 
         Pathfinder pathfinder = GetComponent<Pathfinder>();
         List<Pathfinder.Node> path = pathfinder.FindPath(characterControl.GetCurrentCell(), nextDestination);
+        if (path.Count > 15) {path = path.GetRange(0, 15);}
         foreach(Pathfinder.Node node in path) {
             if (GameTiles.instance.worldTileData[node.position.x, node.position.y].playerVisible) {
                 Vector3 placePosition = GameTiles.instance.tilemapFloor.CellToWorld(node.position);

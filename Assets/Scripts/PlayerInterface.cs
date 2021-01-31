@@ -62,7 +62,7 @@ public class PlayerInterface : MonoBehaviour
                 return;
             }
 
-            gameManager.currentCharacter.SetPath(selectedCell);
+            gameManager.currentCharacter.SetPath(selectedCell, 100, true);
 
             // Advance to next characters turn
             gameManager.AdvanceTurn();
