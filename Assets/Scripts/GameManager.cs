@@ -60,6 +60,10 @@ public class GameManager : MonoBehaviour
         StartCoroutine(EndTurn());
     }
 
+    public void ForceNextLevel() {
+        StartCoroutine(StartLoadNextScene());
+    }
+
     public void CheckWinState() {
         foreach (CharacterControl characterControl in CharacterControl.activeCharacters) {
             if (characterControl.isPlayer) {

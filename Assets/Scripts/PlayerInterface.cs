@@ -41,6 +41,10 @@ public class PlayerInterface : MonoBehaviour
             gameManager.AdvanceTurn();
         }
 
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            gameManager.ForceNextLevel();
+        }
+
         if (Input.GetMouseButtonDown(0)) {
 
             // Get tile at that point
